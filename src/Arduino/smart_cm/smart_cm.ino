@@ -1,9 +1,13 @@
-void setup() {
-  // put your setup code here, to run once:
+#include "display.h"
+#include "display_impl.h"
 
+Display* chooseDisplay;
+
+void setup() {
+  chooseDisplay = new DisplayImpl();
+  chooseDisplay->displayMessage("Prova");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
 }
