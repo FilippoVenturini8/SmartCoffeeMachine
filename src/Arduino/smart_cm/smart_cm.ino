@@ -1,20 +1,29 @@
-#include "display.h"
-#include "display_impl.h"
 #include "sonar.h"
 #include "sonar_impl.h"
+#include "button.h"
+#include "button_impl.h"
+#include "scheduler.h"
+#include "task.h"
+#include "display_task.h"
 
-Display* chooseDisplay;
 Sonar* sonar;
+Button* bUp;
+Button* bDown;
+Scheduler sched;
 
 void setup() {
   Serial.begin(9600);
-  chooseDisplay = new DisplayImpl();
+  /*chooseDisplay = new DisplayImpl();
   sonar = new SonarImpl(7,8);
-  chooseDisplay->displayMessage("Prova");
   float distance = sonar->getDistance();
-  Serial.println(distance);
+  Serial.println(distance);*/
+  sched.init(50);
+   
+  Task* t0 = new DisplayTask();
+  t0->init(3000);
+  sched.addTask(t0);
 }
 
 void loop() {
-  
+  sched.schedule();
 }

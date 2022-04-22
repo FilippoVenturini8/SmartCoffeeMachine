@@ -4,6 +4,8 @@
 #include "display.h"
 #include <LiquidCrystal_I2C.h>
 
+/* Wiring: SDA => A4, SCL => A5 */
+
 class DisplayImpl: public Display {
 
 public:
