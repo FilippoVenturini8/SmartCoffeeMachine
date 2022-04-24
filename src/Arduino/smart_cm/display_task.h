@@ -6,7 +6,7 @@
 
 class DisplayTask: public Task {
  Display* machineDisplay;
- //enum { ON, OFF} state;
+ enum { READY, CHOOSING, MAKING } state;
  
 public:
 

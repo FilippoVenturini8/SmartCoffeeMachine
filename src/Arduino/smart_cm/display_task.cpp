@@ -7,9 +7,19 @@ DisplayTask::DisplayTask(){
 void DisplayTask::init(int period){
  Task::init(period);
  machineDisplay = new DisplayImpl(); 
- //state = OFF; 
+ state = READY; 
 }
  
 void DisplayTask::tick(){
-  machineDisplay->displayMessage("Prova");
+  switch(state){
+    case READY:
+      machineDisplay->displayMessage((char*)"READY");
+      break;
+    case CHOOSING:
+      machineDisplay->displayMessage((char*)"CHOOSING");
+      break;
+    case MAKING:
+      machineDisplay->displayMessage((char*)"MAKING");
+      break;
+  }
 }

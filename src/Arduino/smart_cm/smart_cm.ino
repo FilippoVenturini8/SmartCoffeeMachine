@@ -1,10 +1,9 @@
 #include "sonar.h"
 #include "sonar_impl.h"
-#include "button.h"
-#include "button_impl.h"
 #include "scheduler.h"
 #include "task.h"
 #include "display_task.h"
+#include "buttons_task.h"
 
 Sonar* sonar;
 Button* bUp;
@@ -19,9 +18,13 @@ void setup() {
   Serial.println(distance);*/
   sched.init(50);
    
-  Task* t0 = new DisplayTask();
+  /*Task* t0 = new DisplayTask();
   t0->init(3000);
-  sched.addTask(t0);
+  sched.addTask(t0);*/
+
+  Task* t1 = new ButtonsTask(7,8,9);
+  t1->init(100);
+  sched.addTask(t1);
 }
 
 void loop() {
