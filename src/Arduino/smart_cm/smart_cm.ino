@@ -3,7 +3,7 @@
 #include "scheduler.h"
 #include "task.h"
 #include "display_task.h"
-#include "buttons_task.h"
+#include "selection_task.h"
 
 Sonar* sonar;
 Button* bUp;
@@ -18,11 +18,11 @@ void setup() {
   Serial.println(distance);*/
   sched.init(50);
    
-  /*Task* t0 = new DisplayTask();
-  t0->init(3000);
-  sched.addTask(t0);*/
+  Task* t0 = new DisplayTask();
+  t0->init(50);
+  sched.addTask(t0);
 
-  Task* t1 = new ButtonsTask(7,8,9);
+  Task* t1 = new SelectionTask(7,8,9, A0);
   t1->init(100);
   sched.addTask(t1);
 }

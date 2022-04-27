@@ -1,4 +1,6 @@
 #include "display_task.h"
+#include <string.h>
+#include "Arduino.h"
 
 DisplayTask::DisplayTask(){
   
@@ -7,19 +9,11 @@ DisplayTask::DisplayTask(){
 void DisplayTask::init(int period){
  Task::init(period);
  machineDisplay = new DisplayImpl(); 
- state = READY; 
 }
  
 void DisplayTask::tick(){
-  switch(state){
-    case READY:
-      machineDisplay->displayMessage((char*)"READY");
-      break;
-    case CHOOSING:
-      machineDisplay->displayMessage((char*)"CHOOSING");
-      break;
-    case MAKING:
-      machineDisplay->displayMessage((char*)"MAKING");
-      break;
+  if(strcmp(msg,lastPrint) != 0){
+    machineDisplay->displayMessage(msg);
+    lastPrint = msg;
   }
 }

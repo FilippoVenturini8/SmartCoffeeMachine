@@ -3,10 +3,11 @@
 #include "Task.h"
 #include "display.h"
 #include "display_impl.h"
+#include "shared_variables.h"
 
 class DisplayTask: public Task {
  Display* machineDisplay;
- enum { READY, CHOOSING, MAKING } state;
+ char* lastPrint;
  
 public:
 

@@ -8,5 +8,6 @@ DisplayImpl::DisplayImpl(){
 } 
 
 void DisplayImpl::displayMessage(char* msg){ 
+  this->lcd.clear();
   this->lcd.print(msg);     
 }
