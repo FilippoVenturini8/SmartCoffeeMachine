@@ -1,7 +1,13 @@
 #include "selection_task.h"
 #include <Arduino.h>
+#include "display.h"
+#include "display_impl.h"
+#include "servo_motor.h"
+#include "servo_motor_impl.h"
 
 bool selected;
+
+bool productDone;
 
 char* productList[3];
 
@@ -9,8 +15,9 @@ int quantityList[3];
 
 int selectedIndex;
 
-char* msg;
+Display* machineDisplay;
 
+ServoMotor* servoMotor;
 
 SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
   this->pin[0] = pinUp;
@@ -21,6 +28,7 @@ SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
 
   //TEMPORNEO
   selected = false;
+  productDone = false;
   selectedIndex = 0;
   productList[0] = (char*)"TEA";
   productList[1] = (char*)"COFFE";
@@ -28,7 +36,8 @@ SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
   quantityList[0] = 3;
   quantityList[1] = 3;
   quantityList[2] = 3;
-  msg = (char*)"Prova";
+  machineDisplay = new DisplayImpl();
+  servoMotor = new ServoMotorImpl(3);
 }
  
 void SelectionTask::init(int period){
@@ -42,7 +51,6 @@ void SelectionTask::init(int period){
 void SelectionTask::tick(){
   switch(state){
     case SELECTING:
-      msg = productList[selectedIndex];
       checkButtonPressed();
       break;
     case WAIT_FOR_DELIVERY:
@@ -57,20 +65,22 @@ void SelectionTask::checkButtonPressed(){
     }else{
       selectedIndex++;
     }
+    machineDisplay->displayMessage(productList[selectedIndex]);
   }else if(buttonDown->isPressed()){
     if(selectedIndex == 0){
       selectedIndex = 2;
     }else{
       selectedIndex--;
     }
+    machineDisplay->displayMessage(productList[selectedIndex]);
   }else if(buttonMake->isPressed()){
     selected = true;
     state = WAIT_FOR_DELIVERY;
 
-    char result[80];
+    char msg[80];
     
-    strcpy(result, "making a ");
-    strcat(result, productList[selectedIndex]);
-    msg = result;
+    strcpy(msg, "making a ");
+    strcat(msg, productList[selectedIndex]);
+    machineDisplay->displayMessage(msg);
   }
 }
