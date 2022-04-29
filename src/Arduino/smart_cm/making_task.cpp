@@ -36,6 +36,9 @@ void MakingTask::tick(){
       machineDisplay->displayMessage(msg);
       break;
     case WAIT_DELIVERY:
+      if(delivered or !selected){
+        state = WAIT_SELECTION;
+      }
       break;
   }
 }

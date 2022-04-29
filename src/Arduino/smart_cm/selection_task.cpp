@@ -9,6 +9,8 @@ bool selected;
 
 bool productDone;
 
+bool delivered;
+
 char* productList[3];
 
 int quantityList[3];
@@ -29,6 +31,7 @@ SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
   //TEMPORNEO
   selected = false;
   productDone = false;
+  delivered = false;
   selectedIndex = 0;
   productList[0] = (char*)"TEA";
   productList[1] = (char*)"COFFE";
@@ -53,7 +56,13 @@ void SelectionTask::tick(){
     case SELECTING:
       checkButtonPressed();
       break;
-    case WAIT_FOR_DELIVERY:
+    case WAIT_DELIVERY:
+      if(delivered){
+        state = SELECTING;
+        selected = false;
+        productDone = false;
+        delivered = false;
+      }
       break;
   }
 }
@@ -75,7 +84,7 @@ void SelectionTask::checkButtonPressed(){
     machineDisplay->displayMessage(productList[selectedIndex]);
   }else if(buttonMake->isPressed()){
     selected = true;
-    state = WAIT_FOR_DELIVERY;
+    state = WAIT_DELIVERY;
 
     char msg[80];
     

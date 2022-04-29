@@ -7,6 +7,8 @@ extern bool selected;
 
 extern bool productDone;
 
+extern bool delivered;
+
 extern char* productList[3];
 
 extern int quantityList[3];

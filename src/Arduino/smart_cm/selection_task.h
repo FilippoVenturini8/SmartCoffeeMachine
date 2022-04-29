@@ -15,7 +15,7 @@ class SelectionTask: public Task {
  Button* buttonDown;
  Button* buttonMake;
  Pot* potentiometer;
- enum { SELECTING, WAIT_FOR_DELIVERY } state;
+ enum { SELECTING, WAIT_DELIVERY } state;
  
 public:
 

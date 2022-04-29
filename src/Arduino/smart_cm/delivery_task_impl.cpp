@@ -17,13 +17,14 @@ void DeliveryTask::tick(){
   switch(state){
     case WAIT_MAKING:
       if(productDone){
+        productDoneTime = millis();
         state = DELIVERING;
         productDone = false;
       }
       break;
     case DELIVERING:
       distance = sonar->getDistance();
-      if(distance >= 0.40){
+      if(distance >= 0.40 or millis()-productDoneTime >= T_TIMEOUT){
         state = DELIVERED;
       }
       delay(50); 
@@ -31,9 +32,10 @@ void DeliveryTask::tick(){
     case DELIVERED:
       servoMotor->on();
       servoMotor->setPosition(0);
-      delay(500);
+      delay(100);
       servoMotor->off();
       state = WAIT_MAKING;
+      delivered = true;
       break;
   }
 }

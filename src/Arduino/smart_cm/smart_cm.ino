@@ -5,6 +5,10 @@
 #include "selection_task.h"
 #include "making_task.h"
 #include "delivery_task.h"
+#include "user_detection_task.h"
+#include "check_task.h"
+#include "temp_sensor.h"
+#include "temp_sensor_impl.h"
 
 Sonar* sonar;
 Button* bUp;
@@ -30,6 +34,18 @@ void setup() {
   Task* t3 = new DeliveryTask(4,2);
   t3->init(50);
   sched.addTask(t3);
+
+  Task* t4 = new UserDetectionTask(12);
+  t4->init(50);
+  sched.addTask(t4);
+
+  Task* t5 = new CheckTask(A0);
+  t5->init(50);
+  sched.addTask(t5);
+
+  /*TempSensor* t = new TempSensorImpl(A0);
+  float temp = t->getTemperature();
+  Serial.println(temp);*/
 }
 
 void loop() {

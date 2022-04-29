@@ -8,6 +8,8 @@
 
 class DeliveryTask: public Task {
 
+ const int T_TIMEOUT = 5000;
+ unsigned long productDoneTime;
  enum { WAIT_MAKING, DELIVERING, DELIVERED } state;
  Sonar* sonar;
  ServoMotor* servo;
