@@ -8,7 +8,7 @@
 class UserDetectionTask: public Task {
 
  enum { DETECTED, NOT_DETECTED } state;
- const int T_IDLE = 3000;
+ const int T_IDLE = 3000; //DA MODIFICARE!
  unsigned long lastDetectionTime;
  int pinPir;
  Pir* pir;

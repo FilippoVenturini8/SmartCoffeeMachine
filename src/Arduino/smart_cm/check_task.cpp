@@ -16,10 +16,18 @@ void CheckTask::tick(){
   switch(state){
     case WAITING_CHECK:
       break;
-    case SELF_TEST:
-      break;
     case TEMP_CHECK:
-      Serial.println(tempSensor->getTemperature());
+      startCheckTime = millis();
+      float temperature = tempSensor->getTemperature();
+
+      if(temperature < T_MIN or temperature > T_MAX){
+        machineDisplay->displayMessage("Assistance Required");
+      }else{
+        state = SELF_TEST;
+      }
+      break;
+    case SELF_TEST:
+    
       break;
   }
 }

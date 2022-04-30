@@ -27,7 +27,6 @@ void MakingTask::tick(){
       productDone = true;
       state = WAIT_DELIVERY;
 
-
       char msg[80];
     
       strcpy(msg, "The ");
