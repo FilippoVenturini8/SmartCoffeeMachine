@@ -5,42 +5,12 @@
 #include "servo_motor.h"
 #include "servo_motor_impl.h"
 
-bool selected;
-
-bool productDone;
-
-bool delivered;
-
-char* productList[3];
-
-int quantityList[3];
-
-int selectedIndex;
-
-Display* machineDisplay;
-
-ServoMotor* servoMotor;
-
 SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
   this->pin[0] = pinUp;
   this->pin[1] = pinDown;
   this->pin[2] = pinMake;
   this->pin[3] = pinPot;
   this->state = SELECTING;
-
-  //TEMPORNEO
-  selected = false;
-  productDone = false;
-  delivered = false;
-  selectedIndex = 0;
-  productList[0] = (char*)"TEA";
-  productList[1] = (char*)"COFFE";
-  productList[2] = (char*)"CHOCOLATE";
-  quantityList[0] = 3;
-  quantityList[1] = 3;
-  quantityList[2] = 3;
-  machineDisplay = new DisplayImpl();
-  servoMotor = new ServoMotorImpl(3);
 }
  
 void SelectionTask::init(int period){
@@ -59,8 +29,6 @@ void SelectionTask::tick(){
     case WAIT_DELIVERY:
       if(delivered){
         state = SELECTING;
-        selected = false;
-        productDone = false;
         delivered = false;
       }
       break;
@@ -69,27 +37,41 @@ void SelectionTask::tick(){
 
 void SelectionTask::checkButtonPressed(){
   if(buttonUp->isPressed()){
-    if(selectedIndex == 2){
-      selectedIndex = 0;
-    }else{
-      selectedIndex++;
-    }
-    machineDisplay->displayMessage(productList[selectedIndex]);
+    delta = 1;
+    nextProduct();
   }else if(buttonDown->isPressed()){
-    if(selectedIndex == 0){
-      selectedIndex = 2;
-    }else{
-      selectedIndex--;
-    }
-    machineDisplay->displayMessage(productList[selectedIndex]);
+    delta = -1;
+    nextProduct();
   }else if(buttonMake->isPressed()){
+    quantityList[selectedIndex]-=1;
     selected = true;
+    canCheck = false;
     state = WAIT_DELIVERY;
 
     char msg[80];
     
-    strcpy(msg, "making a ");
+    strcpy(msg, "Making a ");
     strcat(msg, productList[selectedIndex]);
     machineDisplay->displayMessage(msg);
+  }
+}
+
+void SelectionTask::nextProduct(){
+  int c = 0;
+  do{
+    if(selectedIndex == 2 and delta == 1){
+      selectedIndex = 0;
+    }else if(selectedIndex == 0 and delta == -1){
+      selectedIndex = 2;
+    }else{
+      selectedIndex += delta;
+    }
+    c++;
+  }while(quantityList[selectedIndex] == 0 and c < 3);
+  
+  if(quantityList[selectedIndex] == 0 and c == 3){
+    machineDisplay->displayMessage((char*)"Assistance Required");
+  }else{
+    machineDisplay->displayMessage(productList[selectedIndex]);
   }
 }

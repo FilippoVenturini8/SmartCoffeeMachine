@@ -11,6 +11,7 @@
 class SelectionTask: public Task {
 
  int pin[4];
+ int delta;
  Button* buttonUp;
  Button* buttonDown;
  Button* buttonMake;
@@ -23,6 +24,7 @@ public:
  void init(int period); 
  void tick();
  void checkButtonPressed();
+ void nextProduct();
  
 };
 #endif

@@ -1,5 +1,4 @@
-#include "sonar.h"
-#include "sonar_impl.h"
+#include "shared_variables.h"
 #include "scheduler.h"
 #include "task.h"
 #include "selection_task.h"
@@ -7,20 +6,29 @@
 #include "delivery_task.h"
 #include "user_detection_task.h"
 #include "check_task.h"
-#include "temp_sensor.h"
-#include "temp_sensor_impl.h"
+#include "display.h"
+#include "display_impl.h"
+#include "servo_motor.h"
+#include "servo_motor_impl.h"
 
-Sonar* sonar;
-Button* bUp;
-Button* bDown;
+bool selected;
+bool productDone;
+bool delivered;
+bool canCheck;
+
+char* productList[3];
+int quantityList[3];
+
+int selectedIndex;
+
+Display* machineDisplay;
+ServoMotor* servoMotor;
+
 Scheduler sched;
 
 void setup() {
-  Serial.begin(9600);
-  /*chooseDisplay = new DisplayImpl();
-  sonar = new SonarImpl(7,8);
-  float distance = sonar->getDistance();
-  Serial.println(distance);*/
+  bootMachine();
+
   sched.init(50);
 
   Task* t1 = new SelectionTask(7,8,9, A0);
@@ -43,9 +51,26 @@ void setup() {
   t5->init(50);
   sched.addTask(t5);
 
-  /*TempSensor* t = new TempSensorImpl(A0);
-  float temp = t->getTemperature();
-  Serial.println(temp);*/
+  Serial.begin(9600);
+}
+
+void bootMachine(){
+  machineDisplay = new DisplayImpl();
+  machineDisplay->displayMessage((char*)"Welcome User!");
+  selected = false;
+  productDone = false;
+  delivered = false;
+  canCheck = true;
+  selectedIndex = 0;
+  productList[0] = (char*)"TEA";
+  productList[1] = (char*)"COFFE";
+  productList[2] = (char*)"CHOCOLATE";
+  quantityList[0] = 0;
+  quantityList[1] = 1;
+  quantityList[2] = 0;
+  servoMotor = new ServoMotorImpl(3);
+  delay(2000);
+  machineDisplay->displayMessage((char*)"Ready");
 }
 
 void loop() {

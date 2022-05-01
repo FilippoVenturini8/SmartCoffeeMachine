@@ -7,13 +7,16 @@
 
 class CheckTask: public Task {
 
- const int T_CHECK = 10000; //DA MODIFICARE
+ const long T_CHECK = 180000; //DA MODIFICARE
+ const long CHECK_PERIOD = 120000;
  const float T_MIN = 17.0;
  const float T_MAX = 24.0;
+ float temperature;
  enum { WAITING_CHECK, TEMP_CHECK, SELF_TEST } state;
  TempSensor* tempSensor;
  int pinTempSensor;
- unsigned long startCheckTime;
+ unsigned long lastCheckTime;
+ unsigned long servoDelay;
  
  
 public:
