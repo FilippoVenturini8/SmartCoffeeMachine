@@ -45,10 +45,11 @@ void SelectionTask::checkButtonPressed(){
   }else if(buttonMake->isPressed()){
     quantityList[selectedIndex]-=1;
     selected = true;
+    isWorking = true;
     canCheck = false;
     state = WAIT_DELIVERY;
 
-    char msg[80];
+    char msg[50];
     
     strcpy(msg, "Making a ");
     strcat(msg, productList[selectedIndex]);
@@ -71,6 +72,7 @@ void SelectionTask::nextProduct(){
   
   if(quantityList[selectedIndex] == 0 and c == 3){
     machineDisplay->displayMessage((char*)"Assistance Required");
+    assistanceRequired = true;
   }else{
     machineDisplay->displayMessage(productList[selectedIndex]);
   }

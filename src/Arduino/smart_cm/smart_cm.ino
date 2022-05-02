@@ -6,6 +6,7 @@
 #include "delivery_task.h"
 #include "user_detection_task.h"
 #include "check_task.h"
+#include "send_info_task.h"
 #include "display.h"
 #include "display_impl.h"
 #include "servo_motor.h"
@@ -15,11 +16,14 @@ bool selected;
 bool productDone;
 bool delivered;
 bool canCheck;
+bool assistanceRequired;
+bool isWorking;
 
 char* productList[3];
 int quantityList[3];
 
 int selectedIndex;
+int nSelfTest;
 
 Display* machineDisplay;
 ServoMotor* servoMotor;
@@ -51,6 +55,10 @@ void setup() {
   t5->init(50);
   sched.addTask(t5);
 
+  Task* t6 = new SendInfoTask();
+  t6->init(100);
+  sched.addTask(t6);
+
   Serial.begin(9600);
 }
 
@@ -60,12 +68,15 @@ void bootMachine(){
   selected = false;
   productDone = false;
   delivered = false;
+  isWorking = false;
   canCheck = true;
+  assistanceRequired = false;
   selectedIndex = 0;
+  nSelfTest = 0;
   productList[0] = (char*)"TEA";
   productList[1] = (char*)"COFFE";
   productList[2] = (char*)"CHOCOLATE";
-  quantityList[0] = 0;
+  quantityList[0] = 2;
   quantityList[1] = 1;
   quantityList[2] = 0;
   servoMotor = new ServoMotorImpl(3);

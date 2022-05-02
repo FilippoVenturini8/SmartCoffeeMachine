@@ -11,11 +11,17 @@ extern bool delivered;
 
 extern bool canCheck;
 
+extern bool isWorking;
+
+extern bool assistanceRequired;
+
 extern char* productList[3];
 
 extern int quantityList[3];
 
 extern int selectedIndex;
+
+extern int nSelfTest;
 
 extern Display* machineDisplay;
 

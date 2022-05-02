@@ -23,11 +23,15 @@ void CheckTask::tick(){
       break;
     case TEMP_CHECK:
       machineDisplay->displayMessage((char*)"SELF TEST...");
+      nSelfTest++;
+      isWorking = true;
       temperature = tempSensor->getTemperature();
-      Serial.println(temperature);
 
       if(temperature < T_MIN or temperature > T_MAX){
         machineDisplay->displayMessage((char*)"Assistance Required");
+        assistanceRequired = true; 
+        lastCheckTime = millis();
+        state = WAITING_CHECK;
       }else{
         state = SELF_TEST;
       }
@@ -46,6 +50,7 @@ void CheckTask::tick(){
 
       state = WAITING_CHECK;
       lastCheckTime = millis();
+      isWorking = false;
       break;
   }
 }

@@ -31,12 +31,12 @@ void UserDetectionTask::tick(){
         //Serial.println("detected");
         
       }else if(!pir->isDetected() and millis()-lastDetectionTime >= T_IDLE){
-        Serial.println("SLEEP");
+        //Serial.println("SLEEP");
         set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
         sleep_enable();
         sleep_mode();
         
-        Serial.println("WAKE UP"); 
+        //Serial.println("WAKE UP"); 
         sleep_disable();
       }
       break;
