@@ -3,6 +3,8 @@
 #include "display.h"
 #include "servo_motor.h"
 
+extern bool isReady;
+
 extern bool selected;
 
 extern bool productDone;

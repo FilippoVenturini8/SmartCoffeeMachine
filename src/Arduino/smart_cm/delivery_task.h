@@ -12,7 +12,6 @@ class DeliveryTask: public Task {
  unsigned long productDoneTime;
  enum { WAIT_MAKING, DELIVERING, DELIVERED } state;
  Sonar* sonar;
- ServoMotor* servo;
  int pinEcho;
  int pinTrig;
  int pinServo;

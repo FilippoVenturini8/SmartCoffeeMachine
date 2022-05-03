@@ -34,6 +34,12 @@ void DeliveryTask::tick(){
       servoMotor->setPosition(0);
       delay(100);
       servoMotor->off();
+      
+      if(quantityList[0] == 0 and quantityList[1] == 0 and quantityList[2] == 0){
+        assistanceRequired = true;
+        machineDisplay->displayMessage((char*)"Assistance Required");
+      }
+      
       state = WAIT_MAKING;
       delivered = true;
       isWorking = false;

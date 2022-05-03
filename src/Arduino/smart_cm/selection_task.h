@@ -10,6 +10,8 @@
 
 class SelectionTask: public Task {
 
+ const int T_READY = 5000;
+ unsigned long lastButtonPressed;
  int pin[4];
  int delta;
  Button* buttonUp;
@@ -27,4 +29,5 @@ public:
  void nextProduct();
  
 };
+
 #endif

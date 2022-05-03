@@ -22,8 +22,16 @@ void SelectionTask::init(int period){
 }
  
 void SelectionTask::tick(){
+  if(assistanceRequired){
+    return;
+  }
   switch(state){
     case SELECTING:
+      if(millis() - lastButtonPressed >= T_READY){
+        machineDisplay->displayMessage((char*)"Ready");
+        lastButtonPressed = millis();
+        isReady = true;
+      }
       checkButtonPressed();
       break;
     case WAIT_DELIVERY:
@@ -39,10 +47,14 @@ void SelectionTask::checkButtonPressed(){
   if(buttonUp->isPressed()){
     delta = 1;
     nextProduct();
+    lastButtonPressed = millis();
+    isReady = false;
   }else if(buttonDown->isPressed()){
     delta = -1;
     nextProduct();
-  }else if(buttonMake->isPressed()){
+    lastButtonPressed = millis();
+    isReady = false;
+  }else if(buttonMake->isPressed() and !isReady){
     quantityList[selectedIndex]-=1;
     selected = true;
     isWorking = true;
@@ -70,10 +82,5 @@ void SelectionTask::nextProduct(){
     c++;
   }while(quantityList[selectedIndex] == 0 and c < 3);
   
-  if(quantityList[selectedIndex] == 0 and c == 3){
-    machineDisplay->displayMessage((char*)"Assistance Required");
-    assistanceRequired = true;
-  }else{
-    machineDisplay->displayMessage(productList[selectedIndex]);
-  }
+  machineDisplay->displayMessage(productList[selectedIndex]);
 }

@@ -12,6 +12,7 @@
 #include "servo_motor.h"
 #include "servo_motor_impl.h"
 
+bool isReady;
 bool selected;
 bool productDone;
 bool delivered;
@@ -76,12 +77,13 @@ void bootMachine(){
   productList[0] = (char*)"TEA";
   productList[1] = (char*)"COFFE";
   productList[2] = (char*)"CHOCOLATE";
-  quantityList[0] = 2;
+  quantityList[0] = 0;
   quantityList[1] = 1;
   quantityList[2] = 0;
   servoMotor = new ServoMotorImpl(3);
   delay(2000);
   machineDisplay->displayMessage((char*)"Ready");
+  isReady = true;
 }
 
 void loop() {

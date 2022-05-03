@@ -17,6 +17,9 @@ public:
  void tick();
  void verifyMachineModality();
  void sendMsg();
+ void readMsg();
  
 };
+
+extern SendInfoTask sendInfoTask;
 #endif

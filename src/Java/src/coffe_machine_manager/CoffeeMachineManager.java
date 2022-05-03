@@ -1,5 +1,7 @@
 package coffe_machine_manager;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class CoffeeMachineManager {
 		JLabel lblNSelfTest = new JLabel("Self tests: ");
 		
 		JButton btnRefill = new JButton("Refill");
-		JButton btnReset = new JButton("Reset");
+		JButton btnRecover = new JButton("Recover");
 		
 		lblModality.setBounds(325, 50, 200, 50);
 		lblTea.setBounds(325, 100, 100, 50);
@@ -42,7 +44,7 @@ public class CoffeeMachineManager {
 		lblChocolate.setBounds(325, 180, 100, 50);
 		lblNSelfTest.setBounds(325, 350, 100, 50);
 		btnRefill.setBounds(230, 300, 100, 50);
-		btnReset.setBounds(430, 300, 100, 50);
+		btnRecover.setBounds(430, 300, 100, 50);
 		
 		panel.add(lblModality);
 		panel.add(lblCoffee);
@@ -50,9 +52,28 @@ public class CoffeeMachineManager {
 		panel.add(lblChocolate);
 		panel.add(lblNSelfTest);
 		panel.add(btnRefill);
-		panel.add(btnReset);
+		panel.add(btnRecover);
 		
 		frame.setVisible(true);
+		
+		btnRefill.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				channel.sendMsg("REFILL");
+			}
+			
+		});
+		
+		btnRecover.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				channel.sendMsg("RECOVER");
+			}
+			
+		});
+		
 		
 		String lastMsg = "";
 		String modality = "";
@@ -62,10 +83,9 @@ public class CoffeeMachineManager {
 		
 		while(true) {
 			String msg = channel.receiveMsg();
-			
-			if(!msg.equals(lastMsg) && msg.contains("|")) {
+			splittedMsg = msg.split("\\|");
+			if(!msg.equals(lastMsg) && msg.contains("|") && splittedMsg.length == 5) {
 				System.out.println(msg);
-				splittedMsg = msg.split("\\|");
 				modality = splittedMsg[0];
 				nSelfTest = splittedMsg[1];
 				quantityList[0] = splittedMsg[2];
