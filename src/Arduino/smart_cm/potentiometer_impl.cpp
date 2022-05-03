@@ -11,6 +11,6 @@ PotImpl::PotImpl(int pin){
 
 int PotImpl::getValue(){
 
-    return map(analogRead(pin), 0, 1023, 0, 100);
+    return map(analogRead(pin), 0, 1023, 0, 5);
 
 }

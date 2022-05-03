@@ -36,7 +36,7 @@ void setup() {
 
   sched.init(50);
 
-  Task* t1 = new SelectionTask(7,8,9, A0);
+  Task* t1 = new SelectionTask(7,8,9, A1);
   t1->init(100);
   sched.addTask(t1);
 

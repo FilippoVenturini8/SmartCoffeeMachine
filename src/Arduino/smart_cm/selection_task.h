@@ -11,9 +11,10 @@
 class SelectionTask: public Task {
 
  const int T_READY = 5000;
- unsigned long lastButtonPressed;
+ unsigned long lastIteration;
  int pin[4];
  int delta;
+ int sugarLevel;
  Button* buttonUp;
  Button* buttonDown;
  Button* buttonMake;
@@ -27,6 +28,7 @@ public:
  void tick();
  void checkButtonPressed();
  void nextProduct();
+ void checkSugarLevel();
  
 };
 

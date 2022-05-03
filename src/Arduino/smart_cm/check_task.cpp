@@ -15,6 +15,9 @@ void CheckTask::init(int period){
 }
  
 void CheckTask::tick(){
+  if(assistanceRequired){
+    return;
+  }
   switch(state){
     case WAITING_CHECK:
       if(millis() - lastCheckTime >= CHECK_PERIOD and canCheck){

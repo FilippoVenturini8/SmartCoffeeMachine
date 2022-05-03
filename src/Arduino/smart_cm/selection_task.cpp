@@ -11,6 +11,7 @@ SelectionTask::SelectionTask(int pinUp, int pinDown, int pinMake, int pinPot){
   this->pin[2] = pinMake;
   this->pin[3] = pinPot;
   this->state = SELECTING;
+  this->sugarLevel = 0;
 }
  
 void SelectionTask::init(int period){
@@ -27,11 +28,12 @@ void SelectionTask::tick(){
   }
   switch(state){
     case SELECTING:
-      if(millis() - lastButtonPressed >= T_READY){
+      if(millis() - lastIteration >= T_READY){
         machineDisplay->displayMessage((char*)"Ready");
-        lastButtonPressed = millis();
+        lastIteration = millis();
         isReady = true;
       }
+      checkSugarLevel();
       checkButtonPressed();
       break;
     case WAIT_DELIVERY:
@@ -47,12 +49,12 @@ void SelectionTask::checkButtonPressed(){
   if(buttonUp->isPressed()){
     delta = 1;
     nextProduct();
-    lastButtonPressed = millis();
+    lastIteration = millis();
     isReady = false;
   }else if(buttonDown->isPressed()){
     delta = -1;
     nextProduct();
-    lastButtonPressed = millis();
+    lastIteration = millis();
     isReady = false;
   }else if(buttonMake->isPressed() and !isReady){
     quantityList[selectedIndex]-=1;
@@ -66,6 +68,25 @@ void SelectionTask::checkButtonPressed(){
     strcpy(msg, "Making a ");
     strcat(msg, productList[selectedIndex]);
     machineDisplay->displayMessage(msg);
+  }
+}
+
+void SelectionTask::checkSugarLevel(){
+  if(isReady){
+    return;
+  }
+  int potValue = potentiometer->getValue();
+
+  if(potValue != sugarLevel){
+    String msg = "Sugar ";
+    msg += potValue; 
+    char buf [50];
+    msg.toCharArray(buf,50);
+    sugarLevel = potValue;
+    machineDisplay->displayMessage(buf);
+    delay(1000);
+    machineDisplay->displayMessage(productList[selectedIndex]);
+    lastIteration = millis();
   }
 }
 

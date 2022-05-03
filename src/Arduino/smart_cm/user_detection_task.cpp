@@ -1,5 +1,6 @@
 #include "user_detection_task.h"
 #include <avr/sleep.h>
+#include <EnableInterrupt.h>
 #include <Arduino.h>
 #include "pir_impl.h"
 
@@ -19,26 +20,28 @@ void UserDetectionTask::tick(){
   }
   switch(state){
     case DETECTED:
-      if(pir->isDetected()){
+      if(!pir->isDetected()){
         state = NOT_DETECTED;
         lastDetectionTime = millis();
-        //Serial.println("not detected");
       }
       break;
     case NOT_DETECTED:
       if(pir->isDetected()){
         state = DETECTED;
-        //Serial.println("detected");
         
       }else if(!pir->isDetected() and millis()-lastDetectionTime >= T_IDLE){
-        //Serial.println("SLEEP");
+        delay(100);    
+        enableInterrupt(pinPir, wakeUp, RISING);
         set_sleep_mode(SLEEP_MODE_PWR_DOWN); 
         sleep_enable();
         sleep_mode();
-        
-        //Serial.println("WAKE UP"); 
+         
+        disableInterrupt(pinPir);
         sleep_disable();
       }
       break;
   }
+}
+
+void UserDetectionTask::wakeUp(){
 }
