@@ -7,6 +7,7 @@
 
 class SendInfoTask: public Task {
 
+ enum {VERIFY_MODALITY, SEND, RECEIVE} state; 
  char* modalityNames [3];
  int indexModality;
   

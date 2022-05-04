@@ -8,6 +8,7 @@ SendInfoTask::SendInfoTask(){
   this->modalityNames[0] = (char*)"IDLE";
   this->modalityNames[1] = (char*)"WORKING";
   this->modalityNames[2] = (char*)"ASSISTANCE";
+  this->state = VERIFY_MODALITY;
   this->indexModality = 0;
   msgAvailable = false;
   recivedMsg = "";
@@ -18,12 +19,26 @@ void SendInfoTask::init(int period){
 }
  
 void SendInfoTask::tick(){
-  verifyMachineModality();
-  sendMsg();
-  Serial.flush();
-  if(msgAvailable){
-    readMsg();
+  switch(state){    
+    case VERIFY_MODALITY: 
+      verifyMachineModality();
+      state = SEND;
+      break;
+      
+    case SEND:   
+      sendMsg();
+      Serial.flush();
+      state = RECEIVE;
+      break;
+      
+    case RECEIVE:
+      if(msgAvailable){
+        readMsg();
+      }
+      state = VERIFY_MODALITY;
+      break;
   }
+  
 }
 
 void SendInfoTask::verifyMachineModality(){
@@ -55,9 +70,9 @@ void SendInfoTask::readMsg(){
     if(quantityList[0] == 0 and quantityList[1] == 0 and quantityList[2] == 0){
       assistanceRequired = false;
     }
-    quantityList[0] = 3;
-    quantityList[1] = 3;
-    quantityList[2] = 3;
+    quantityList[0] = N_MAX;
+    quantityList[1] = N_MAX;
+    quantityList[2] = N_MAX;
     machineDisplay->displayMessage(productList[selectedIndex]);
   }else if(recivedMsg == "RECOVER"){
     if(quantityList[0] != 0 or quantityList[1] != 0 or quantityList[2] != 0){

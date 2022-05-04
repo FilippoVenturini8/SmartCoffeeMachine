@@ -16,7 +16,6 @@ bool isReady;
 bool selected;
 bool productDone;
 bool delivered;
-bool canCheck;
 bool assistanceRequired;
 bool isWorking;
 
@@ -25,6 +24,8 @@ int quantityList[3];
 
 int selectedIndex;
 int nSelfTest;
+
+const int N_MAX = 3;
 
 Display* machineDisplay;
 ServoMotor* servoMotor;
@@ -70,16 +71,15 @@ void bootMachine(){
   productDone = false;
   delivered = false;
   isWorking = false;
-  canCheck = true;
   assistanceRequired = false;
   selectedIndex = 0;
   nSelfTest = 0;
   productList[0] = (char*)"TEA";
   productList[1] = (char*)"COFFE";
   productList[2] = (char*)"CHOCOLATE";
-  quantityList[0] = 0;
-  quantityList[1] = 1;
-  quantityList[2] = 0;
+  quantityList[0] = N_MAX;
+  quantityList[1] = N_MAX;
+  quantityList[2] = N_MAX;
   servoMotor = new ServoMotorImpl(3);
   delay(2000);
   machineDisplay->displayMessage((char*)"Ready");

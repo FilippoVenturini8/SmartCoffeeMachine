@@ -20,7 +20,7 @@ void CheckTask::tick(){
   }
   switch(state){
     case WAITING_CHECK:
-      if(millis() - lastCheckTime >= CHECK_PERIOD and canCheck){
+      if(millis() - lastCheckTime >= CHECK_PERIOD and !isWorking){
         state = TEMP_CHECK;
       }
       break;
@@ -35,6 +35,7 @@ void CheckTask::tick(){
         assistanceRequired = true; 
         lastCheckTime = millis();
         state = WAITING_CHECK;
+        isWorking = false;
       }else{
         state = SELF_TEST;
       }

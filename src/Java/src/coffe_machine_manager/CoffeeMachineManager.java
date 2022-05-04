@@ -38,7 +38,7 @@ public class CoffeeMachineManager {
 		JButton btnRefill = new JButton("Refill");
 		JButton btnRecover = new JButton("Recover");
 		
-		lblModality.setBounds(325, 50, 200, 50);
+		lblModality.setBounds(320, 50, 200, 50);
 		lblTea.setBounds(325, 100, 100, 50);
 		lblCoffee.setBounds(325, 140, 100, 50);
 		lblChocolate.setBounds(325, 180, 100, 50);

@@ -60,7 +60,6 @@ void SelectionTask::checkButtonPressed(){
     quantityList[selectedIndex]-=1;
     selected = true;
     isWorking = true;
-    canCheck = false;
     state = WAIT_DELIVERY;
 
     char msg[50];

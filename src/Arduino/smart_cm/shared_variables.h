@@ -11,8 +11,6 @@ extern bool productDone;
 
 extern bool delivered;
 
-extern bool canCheck;
-
 extern bool isWorking;
 
 extern bool assistanceRequired;
@@ -24,6 +22,8 @@ extern int quantityList[3];
 extern int selectedIndex;
 
 extern int nSelfTest;
+
+extern const int N_MAX;
 
 extern Display* machineDisplay;
 

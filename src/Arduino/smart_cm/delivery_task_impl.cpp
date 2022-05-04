@@ -43,7 +43,6 @@ void DeliveryTask::tick(){
       state = WAIT_MAKING;
       delivered = true;
       isWorking = false;
-      canCheck = true;
       break;
   }
 }
