@@ -25,7 +25,7 @@ void MakingTask::tick(){
       }
       servoMotor->off();
       productDone = true;
-      state = WAIT_DELIVERY;
+      state = WAIT_SELECTION;
 
       char msg[80];
     
@@ -33,11 +33,6 @@ void MakingTask::tick(){
       strcat(msg, productList[selectedIndex]);
       strcat(msg, " is ready");
       machineDisplay->displayMessage(msg);
-      break;
-    case WAIT_DELIVERY:
-      if(delivered or !selected){
-        state = WAIT_SELECTION;
-      }
       break;
   }
 }

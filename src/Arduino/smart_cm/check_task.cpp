@@ -11,7 +11,6 @@ void CheckTask::init(int period){
   this->tempSensor = new TempSensorImpl(pinTempSensor);
   this->state = WAITING_CHECK;
   this->lastCheckTime = millis();
-  this->servoDelay = (T_CHECK / 2) / 180;
 }
  
 void CheckTask::tick(){
@@ -20,7 +19,7 @@ void CheckTask::tick(){
   }
   switch(state){
     case WAITING_CHECK:
-      if(millis() - lastCheckTime >= CHECK_PERIOD and !isWorking){
+      if(millis() - lastCheckTime >= T_CHECK and !isWorking){
         state = TEMP_CHECK;
       }
       break;
@@ -42,14 +41,10 @@ void CheckTask::tick(){
       break;
     case SELF_TEST:
       servoMotor->on();
-      for(int i = 0; i < 180; i++){
-        servoMotor->setPosition(i);
-        delay(servoDelay);
-      }
-      for(int i = 178; i >= 0; i--){
-        servoMotor->setPosition(i);
-        delay(servoDelay);
-      }
+      servoMotor->setPosition(180);
+      delay(500);
+      servoMotor->setPosition(0);
+      delay(500);
       servoMotor->off();
 
       state = WAITING_CHECK;

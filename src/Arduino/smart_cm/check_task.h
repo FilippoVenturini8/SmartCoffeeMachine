@@ -8,7 +8,6 @@
 class CheckTask: public Task {
 
  const long T_CHECK = 180000; 
- const long CHECK_PERIOD = 120000;
  const float T_MIN = 17.0;
  const float T_MAX = 24.0;
  float temperature;
@@ -16,7 +15,6 @@ class CheckTask: public Task {
  TempSensor* tempSensor;
  int pinTempSensor;
  unsigned long lastCheckTime;
- unsigned long servoDelay;
  
  
 public:

@@ -6,7 +6,7 @@
 
 class MakingTask: public Task {
 
- enum { WAIT_SELECTION, MAKING, WAIT_DELIVERY } state;
+ enum { WAIT_SELECTION, MAKING } state;
  
 public:
 
