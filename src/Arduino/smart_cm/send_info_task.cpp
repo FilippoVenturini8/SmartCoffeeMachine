@@ -25,7 +25,7 @@ void SendInfoTask::tick(){
       state = SEND;
       break;
       
-    case SEND:   
+    case SEND: 
       sendMsg();
       Serial.flush();
       state = RECEIVE;

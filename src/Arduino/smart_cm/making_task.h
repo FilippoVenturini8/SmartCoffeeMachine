@@ -7,6 +7,7 @@
 class MakingTask: public Task {
 
  enum { WAIT_SELECTION, MAKING } state;
+ int servoPosition;
  
 public:
 

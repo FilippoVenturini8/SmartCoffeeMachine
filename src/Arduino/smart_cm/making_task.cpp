@@ -7,6 +7,7 @@ MakingTask::MakingTask(){
 void MakingTask::init(int period){
   Task::init(period);
   this->state = WAIT_SELECTION;
+  this->servoPosition = 0;
 }
  
 void MakingTask::tick(){
@@ -18,21 +19,26 @@ void MakingTask::tick(){
       }
       break;
     case MAKING:
-      servoMotor->on();
-      for(int i=0; i < 180; i++){
-        servoMotor->setPosition(i);
-        delay(55);
+      if(servoPosition <= 180){
+        servoMotor->on();
+        
+        servoMotor->setPosition(servoPosition);
+        delay(20);
+        servoPosition+=2;
+        servoMotor->off();
+      }else{
+        servoPosition = 0;
+        productDone = true;
+        state = WAIT_SELECTION;
+  
+        char msg[80];
+      
+        strcpy(msg, "The ");
+        strcat(msg, productList[selectedIndex]);
+        strcat(msg, " is ready");
+        machineDisplay->displayMessage(msg);
       }
-      servoMotor->off();
-      productDone = true;
-      state = WAIT_SELECTION;
-
-      char msg[80];
-    
-      strcpy(msg, "The ");
-      strcat(msg, productList[selectedIndex]);
-      strcat(msg, " is ready");
-      machineDisplay->displayMessage(msg);
+      
       break;
   }
 }

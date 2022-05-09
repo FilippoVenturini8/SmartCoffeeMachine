@@ -25,7 +25,7 @@ int quantityList[3];
 int selectedIndex;
 int nSelfTest;
 
-const int N_MAX = 3;
+const int N_MAX = 1;
 
 Display* machineDisplay;
 ServoMotor* servoMotor;
