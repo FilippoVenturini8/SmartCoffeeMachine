@@ -42,23 +42,23 @@ void setup() {
   sched.addTask(t1);
 
   Task* t2 = new MakingTask();
-  t2->init(150);
+  t2->init(100);
   sched.addTask(t2);
 
   Task* t3 = new DeliveryTask(4,2);
-  t3->init(50);
+  t3->init(100);
   sched.addTask(t3);
 
   Task* t4 = new UserDetectionTask(12);
-  t4->init(50);
+  t4->init(500);
   sched.addTask(t4);
 
   Task* t5 = new CheckTask(A0);
-  t5->init(50);
+  t5->init(1000);
   sched.addTask(t5);
 
   Task* t6 = new SendInfoTask();
-  t6->init(100);
+  t6->init(150);
   sched.addTask(t6);
 
   Serial.begin(9600);

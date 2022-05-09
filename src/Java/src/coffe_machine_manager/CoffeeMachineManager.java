@@ -85,7 +85,6 @@ public class CoffeeMachineManager {
 			String msg = channel.receiveMsg();
 			splittedMsg = msg.split("\\|");
 			if(!msg.equals(lastMsg) && msg.contains("|") && splittedMsg.length == 5) {
-				System.out.println(msg);
 				modality = splittedMsg[0];
 				nSelfTest = splittedMsg[1];
 				quantityList[0] = splittedMsg[2];
